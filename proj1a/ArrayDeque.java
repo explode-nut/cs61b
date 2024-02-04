@@ -34,7 +34,11 @@ public class ArrayDeque<T> {
         if (size() == capacity) {
             resizing();
         }
-        first = first - 1;
+        if (first != 0) {
+            first = first - 1;
+        } else {
+            first = capacity - 1;
+        }
         items[first] = item;
         size += 1;
     }
@@ -100,6 +104,9 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
+        if (size == 0) {
+            return null;
+        }
         return items[(first + index) % capacity];
     }
 }

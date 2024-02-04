@@ -1,4 +1,3 @@
-/** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
 	/* Utility method for printing out empty checks. */
 	public static boolean checkEmpty(boolean expected, boolean actual) {
@@ -80,7 +79,6 @@ public class LinkedListDequeTest {
 	public static void getTest() {
 		System.out.println("Running add/remove test.");
 
-
 		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
 		// should be empty
 		boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -106,7 +104,6 @@ public class LinkedListDequeTest {
 
 	public static void removeFromEmptyListTest() {
 		System.out.println("Running add/remove test.");
-
 
 		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
 		// should be empty
