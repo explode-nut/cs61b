@@ -74,7 +74,9 @@ public class ArrayDeque<T> {
             return null;
         }
         T res = items[first];
-        first = (first + 1) % capacity;
+        if (size != 1) {
+            first = (first + 1) % capacity;
+        }
         size -= 1;
 
         return res;
@@ -85,10 +87,12 @@ public class ArrayDeque<T> {
             return null;
         }
         T res = items[last];
-        if (last == 0) {
-            last = capacity - 1;
-        } else {
-            last -= 1;
+        if (size != 1) {
+            if (last == 0) {
+                last = capacity - 1;
+            } else {
+                last -= 1;
+            }
         }
         size -= 1;
 

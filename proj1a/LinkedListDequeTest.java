@@ -1,6 +1,5 @@
 /** Performs some basic linked list tests. */
 public class LinkedListDequeTest {
-	
 	/* Utility method for printing out empty checks. */
 	public static boolean checkEmpty(boolean expected, boolean actual) {
 		if (expected != actual) {
@@ -35,7 +34,6 @@ public class LinkedListDequeTest {
 	  * && is the "and" operation. */
 	public static void addIsEmptySizeTest() {
 		System.out.println("Running add/isEmpty/Size test.");
-		System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
 		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
 
 		boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -61,10 +59,9 @@ public class LinkedListDequeTest {
 
 	/** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
 	public static void addRemoveTest() {
-
 		System.out.println("Running add/remove test.");
 
-		System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
+
 		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
 		// should be empty 
 		boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -81,10 +78,9 @@ public class LinkedListDequeTest {
 	}
 
 	public static void getTest() {
-
 		System.out.println("Running add/remove test.");
 
-		System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
+
 		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
 		// should be empty
 		boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -109,15 +105,15 @@ public class LinkedListDequeTest {
 	}
 
 	public static void removeFromEmptyListTest() {
-
 		System.out.println("Running add/remove test.");
 
-		System.out.println("Make sure to uncomment the lines below (and delete this print statement).");
+
 		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
 		// should be empty
 		boolean passed = checkEmpty(true, lld1.isEmpty());
 		Integer i = lld1.removeFirst();
-		System.out.println("i:" + i);
+		int size = lld1.size();
+		System.out.println("i:" + i + " size:" + size);
 
 		printTestStatus(passed);
 	}
@@ -129,4 +125,4 @@ public class LinkedListDequeTest {
 		getTest();
 		removeFromEmptyListTest();
 	}
-} 
+}

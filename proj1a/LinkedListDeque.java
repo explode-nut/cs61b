@@ -64,7 +64,7 @@ public class LinkedListDeque<T> {
     }
 
     public T removeFirst() {
-        if (first == null) {
+        if (size == 0) {
             return null;
         }
         T res = first.item;
@@ -74,7 +74,7 @@ public class LinkedListDeque<T> {
     }
 
     public T removeLast() {
-        if (last == null) {
+        if (size == 0) {
             return null;
         }
         T res = last.item;
@@ -101,7 +101,7 @@ public class LinkedListDeque<T> {
         if (index == 0) {
             return tmp.item;
         }
-        return recursive(index-1, tmp.next);
+        return recursive(index - 1, tmp.next);
     }
 
 }
