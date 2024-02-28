@@ -62,11 +62,12 @@ public class GuitarString {
     /* Return the double at the front of the buffer. */
     public double sample() {
         //  Return the correct thing.
-        Iterator<Double> iterator = buffer.iterator();
+        /*Iterator<Double> iterator = buffer.iterator();
         Double next = null;
         while (iterator.hasNext()) {
             next = iterator.next();
         }
-        return Double.valueOf(next);
+        return next;*/
+        return buffer.peek();
     }
 }
