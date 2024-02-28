@@ -67,6 +67,6 @@ public class GuitarString {
         while (iterator.hasNext()) {
             next = iterator.next();
         }
-        return next;
+        return Double.valueOf(next);
     }
 }
