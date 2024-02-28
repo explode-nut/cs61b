@@ -2,6 +2,7 @@
 package synthesizer;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 //Make sure this class is public
@@ -61,6 +62,11 @@ public class GuitarString {
     /* Return the double at the front of the buffer. */
     public double sample() {
         //  Return the correct thing.
-        return buffer.peek();
+        Iterator<Double> iterator = buffer.iterator();
+        Double next = null;
+        while (iterator.hasNext()) {
+            next = iterator.next();
+        }
+        return next;
     }
 }
