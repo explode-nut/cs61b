@@ -15,9 +15,45 @@ public class RadixSort {
      *
      * @return String[] the sorted array
      */
+    public static void main(String[] args) {
+        String[] asciis = {"cat", "abc", "duc", "tba", "bbb", "bac", "cab"};
+        String[] sorted = sort(asciis);
+        for (String i : sorted) {
+            System.out.println(i);
+        }
+    }
+
     public static String[] sort(String[] asciis) {
-        // TODO: Implement LSD Sort
-        return null;
+        if (asciis.length == 0 || asciis.length == 1) {
+            return asciis;
+        }
+        int[] buckets = new int[256];
+        int[] starts = new int[256];
+        String[] result = new String[asciis.length];
+        result = asciis.clone();
+
+        for (int i = asciis[0].length() - 1; i >= 0; i--) {
+            for (String e : result) {
+                char t = e.charAt(i);
+                buckets[(int) t]++;
+            }
+            int position = 0;
+            for (int j = 0; j < buckets.length; j++) {
+                starts[j] = position;
+                position += buckets[j];
+            }
+            String[] tmp = new String[asciis.length];
+            for (int k = 0; k < asciis.length; k++) {
+                char t = result[k].charAt(i);
+                tmp[starts[(int) t]] = result[k];
+                starts[(int) t]++;
+            }
+            buckets = new int[256];
+            starts = new int[256];
+            result = tmp;
+        }
+
+        return result;
     }
 
     /**
