@@ -16,7 +16,7 @@ public class RadixSort {
      * @return String[] the sorted array
      */
     public static void main(String[] args) {
-        String[] asciis = {"cat", "abc", "duc", "tba", "bbb", "bac", "cab"};
+        String[] asciis = {"cat", "abc", "duc", "tba", "bbb", "bac", "cab", "a", "ab"};
         String[] sorted = sort(asciis);
         for (String i : sorted) {
             System.out.println(i);
@@ -27,15 +27,23 @@ public class RadixSort {
         if (asciis.length == 0 || asciis.length == 1) {
             return asciis;
         }
+        int len = 0;
         int[] buckets = new int[256];
         int[] starts = new int[256];
         String[] result = new String[asciis.length];
         result = asciis.clone();
+        for (String e : asciis) {
+            len = e.length() > len ? e.length() : len;
+        }
 
-        for (int i = asciis[0].length() - 1; i >= 0; i--) {
+        for (int i = len - 1; i >= 0; i--) {
             for (String e : result) {
-                char t = e.charAt(i);
-                buckets[(int) t]++;
+                if (e.length() <= i) {
+                    buckets[(int) '_']++;
+                } else {
+                    char t = e.charAt(i);
+                    buckets[(int) t]++;
+                }
             }
             int position = 0;
             for (int j = 0; j < buckets.length; j++) {
@@ -44,7 +52,12 @@ public class RadixSort {
             }
             String[] tmp = new String[asciis.length];
             for (int k = 0; k < asciis.length; k++) {
-                char t = result[k].charAt(i);
+                char t;
+                if (result[k].length() <= i) {
+                    t = '_';
+                } else {
+                    t = result[k].charAt(i);
+                }
                 tmp[starts[(int) t]] = result[k];
                 starts[(int) t]++;
             }
