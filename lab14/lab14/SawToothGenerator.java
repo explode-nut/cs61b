@@ -3,7 +3,6 @@ package lab14;
 import lab14lib.Generator;
 
 public class SawToothGenerator implements Generator {
-
     private int period;
     private int state;
 
