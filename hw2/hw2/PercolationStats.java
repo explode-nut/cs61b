@@ -24,7 +24,7 @@ public class PercolationStats {
                 grid.open(rowAndCol[0], rowAndCol[1]);
                 index++;
             }
-            xi[i] = index;
+            xi[i] = (double) grid.numberOfOpenSites() / (N * N);
         }
     }
 
