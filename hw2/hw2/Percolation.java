@@ -88,7 +88,7 @@ public class Percolation {
         }
         for (int i = 0; i < grid[0].length; i++) {
             // 必须加上isOpen(0, i)，否则在初始化时会使第一行的每一个元素对自己查询是否连接，进而使第一行直接被初始化为full状态
-            if (set.connected(xyToInt(row, col), xyToInt(0, i)) && isOpen(0, i)) {
+            if (isOpen(0, i) && set.connected(xyToInt(row, col), xyToInt(0, i))) {
                 return true;
             }
         }
