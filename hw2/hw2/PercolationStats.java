@@ -17,16 +17,14 @@ public class PercolationStats {
         this.xi = new double[T];
         for (int i = 0; i < T; i++) {
             Percolation grid = pf.make(N);
-            int x = 0;
             int[] permutation = StdRandom.permutation(N * N);
             int index = 0;
             while (!grid.percolates()) {
                 int[] rowAndCol = randomToXY(permutation[index]);
                 grid.open(rowAndCol[0], rowAndCol[1]);
-                x++;
                 index++;
             }
-            xi[i] = x;
+            xi[i] = index;
         }
     }
 
