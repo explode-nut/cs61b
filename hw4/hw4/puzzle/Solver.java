@@ -1,57 +1,83 @@
 package hw4.puzzle;
 
+import edu.princeton.cs.algs4.MinPQ;
+
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.List;
+import java.util.Stack;
 
 public class Solver {
-    private int size;
-    private MinPQ<WorldState> minPQ;
-    private ArrayList<WorldState> path;
-    private HashSet<WorldState> parents;
+    private final List<WorldState> result;
+    MinPQ<Node> set = new MinPQ<>();
 
-    public Solver(WorldState initial) {
-        minPQ = new MinPQ<>((o1, o2) -> {
-            int i = o1.estimatedDistanceToGoal();
-            int j = o2.estimatedDistanceToGoal();
-            if (i > j) {
-                return 1;
-            } else if (i < j) {
-                return -1;
-            } else {
-                return 0;
-            }
-        });
-        path = new ArrayList<>();
-        parents = new HashSet<>();
-        size = 0;
+    private class Node implements Comparable<Node> {
+        private final WorldState initial;
+        private final int moves;
+        private final Node previous;
+        private int weight;
 
-        operateMinPQ(initial);
+        public Node(WorldState initial, int moves, Node previous) {
+            this.initial = initial;
+            this.moves = moves;
+            this.previous = previous;
+            this.weight = moves + initial.estimatedDistanceToGoal();
+        }
+
+        public WorldState getInitial() {
+            return initial;
+        }
+
+        public int getWeight() {
+            return weight;
+        }
+
+        public int getMoves() {
+            return moves;
+        }
+
+        public Node getPrevious() {
+            return previous;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.weight - o.weight;
+        }
     }
 
-    private void operateMinPQ(WorldState min) {
-        /*if (min.isGoal()) {
-            return;
-        }*/
-        parents.add(min);
-        Iterable<WorldState> neighbors = min.neighbors();
-        for (WorldState w : neighbors) {
-            if (!parents.contains(w)) {
-                minPQ.insert(w);
-            }
-        }
-        WorldState nextMin = minPQ.delMin();
-        if (nextMin.isGoal()) {
-            return;
-        }
-        size += 1;
-        path.add(nextMin);
-        operateMinPQ(nextMin);
+    public Solver(WorldState initial) {
+        this.result = new ArrayList<>();
+        set.insert(new Node(initial, 0, null));
+        solve();
     }
 
     public int moves() {
-        return size;
+        return set.min().getMoves();
     }
+
     public Iterable<WorldState> solution() {
-        return path;
+        Stack<WorldState>stack=new Stack<>();
+        Node pos = set.min();
+        while (pos!=null) {
+            stack.push(pos.getInitial());
+            pos=pos.previous;
+        }
+        while (!stack.isEmpty()) {
+            result.add(stack.pop());
+        }
+        return Collections.unmodifiableCollection(result);
+    }
+
+    private void solve() {
+        while (!set.min().getInitial().isGoal()) {
+            Node min = set.delMin();
+            Iterable<WorldState> neighbors = min.getInitial().neighbors();
+            for (WorldState i : neighbors) {
+                if (min.getPrevious() == null || !i.equals(min.getPrevious().getInitial())) {
+                    set.insert(new Node(i, min.getMoves() + 1, min));
+                }
+            }
+        }
     }
 }
