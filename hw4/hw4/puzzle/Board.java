@@ -100,6 +100,12 @@ public class Board implements WorldState {
     public int estimatedDistanceToGoal() {
         return manhattan();
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public boolean equals(Object y) {
         if (y == null || this.getClass() != y.getClass()) {
             return false;

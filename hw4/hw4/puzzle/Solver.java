@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Stack;
 
 public class Solver {
-    MinPQ<Node> set = new MinPQ<>();
+    private final MinPQ<Node> set = new MinPQ<>();
 
     private class Node implements Comparable<Node> {
         private final WorldState initial;
