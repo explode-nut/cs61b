@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Stack;
 
 public class Solver {
-    private final List<WorldState> result;
     MinPQ<Node> set = new MinPQ<>();
 
     private class Node implements Comparable<Node> {
@@ -47,7 +46,6 @@ public class Solver {
     }
 
     public Solver(WorldState initial) {
-        this.result = new ArrayList<>();
         set.insert(new Node(initial, 0, null));
         solve();
     }
@@ -57,6 +55,7 @@ public class Solver {
     }
 
     public Iterable<WorldState> solution() {
+        List<WorldState> result = new ArrayList<>();
         Stack<WorldState>stack=new Stack<>();
         Node pos = set.min();
         while (pos!=null) {
