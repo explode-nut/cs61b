@@ -1,4 +1,4 @@
-N = 9
+N = 8
 rseed = 4
 
 %MazeType = SINGLE_GAP
