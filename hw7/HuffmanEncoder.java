@@ -25,7 +25,7 @@ public class HuffmanEncoder {
         BinaryTrie binaryTrie = new BinaryTrie(frequencyTable);
         // 4: Write the binary decoding trie to the .huf file.
         // 5: (optional: write the number of symbols to the .huf file)
-        ObjectWriter ow = new ObjectWriter(args[0] + ".hug");
+        ObjectWriter ow = new ObjectWriter(args[0] + ".huf");
         ow.writeObject(binaryTrie);
 //        ow.writeObject("the number of symbols is " + frequencyTable.size() + "\n");
         // 6: Use binary trie to create lookup table for encoding.
