@@ -26,7 +26,8 @@ public class HuffmanEncoder {
         // 4: Write the binary decoding trie to the .huf file.
         // 5: (optional: write the number of symbols to the .huf file)
         ObjectWriter ow = new ObjectWriter(args[0] + ".hug");
-        ow.writeObject("the number of symbols is " + frequencyTable.size() + "\n");
+        ow.writeObject(binaryTrie);
+//        ow.writeObject("the number of symbols is " + frequencyTable.size() + "\n");
         // 6: Use binary trie to create lookup table for encoding.
         Map<Character, BitSequence> sequenceMap = binaryTrie.buildLookupTable();
         // 7: Create a list of bitsequences.
@@ -34,11 +35,12 @@ public class HuffmanEncoder {
         /* 8: For each 8 bit symbol:
               Lookup that symbol in the lookup table.
               Add the appropriate bit sequence to the list of bitsequences.*/
-        sequenceMap.forEach((k, v) -> {
-            list.add(v);
-        });
+        for (char c : input) {
+            list.add(sequenceMap.get(c));
+        }
         // 9: Assemble all bit sequences into one huge bit sequence.
         BitSequence assembled = BitSequence.assemble(list);
+        // 10: Write the huge bit sequence to the .huf file.
         ow.writeObject(assembled);
     }
 }

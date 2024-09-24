@@ -8,7 +8,7 @@ public class BinaryTrie implements Serializable {
     private final Node root; // 根节点
     private final Map<Character, BitSequence> result; // buildLookupTable返回结果
 
-    private class Node implements Comparable<Node> {
+    private class Node implements Comparable<Node>, Serializable {
         private final char ch;
         private final int frequency;
         private final Node left, right;
