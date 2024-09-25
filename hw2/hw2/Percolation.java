@@ -3,24 +3,26 @@ package hw2;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
+    private final int N;
     private int[][] grid;
     private WeightedQuickUnionUF set;
+    private WeightedQuickUnionUF setWithoutBackWash;
     private int size;
-    private boolean isPercolated;
     // create N-by-N grid, with all sites initially blocked
     public Percolation(int N) {
         if (N <= 0) {
             throw new IllegalArgumentException();
         }
+        this.N = N;
         grid = new int[N][N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 grid[i][j] = 0;
             }
         }
-        set = new WeightedQuickUnionUF(N * N);
+        set = new WeightedQuickUnionUF(N * N + 5);
+        setWithoutBackWash = new WeightedQuickUnionUF(N * N + 5);
         size = 0;
-        isPercolated = false;
     }
     // open the site (row, col) if it is not open already
     public void open(int row, int col) {
@@ -33,7 +35,12 @@ public class Percolation {
         if (row != 0) {
             grid[row][col] = 1;
         } else {
-            grid[row][col] = 2;
+            grid[row][col] = 1;
+            setWithoutBackWash.union(xyToInt(row, col), N * N + 1);
+            set.union(xyToInt(row, col), N * N + 1);
+        }
+        if (row == grid.length - 1) {
+            set.union(xyToInt(row, col), N * N + 2);
         }
         size += 1;
         // scan and union
@@ -48,21 +55,25 @@ public class Percolation {
         if (row != 0) {
             if (isOpen(row - 1, col)) {
                 set.union(xyToInt(row, col), xyToInt(row - 1, col));
+                setWithoutBackWash.union(xyToInt(row, col), xyToInt(row - 1, col));
             }
         }
         if (col != 0) {
             if (isOpen(row, col - 1)) {
                 set.union(xyToInt(row, col), xyToInt(row, col - 1));
+                setWithoutBackWash.union(xyToInt(row, col), xyToInt(row, col - 1));
             }
         }
         if (col != grid[0].length - 1) {
             if (isOpen(row, col + 1)) {
                 set.union(xyToInt(row, col), xyToInt(row, col + 1));
+                setWithoutBackWash.union(xyToInt(row, col), xyToInt(row, col + 1));
             }
         }
         if (row != grid.length - 1) {
             if (isOpen(row + 1, col)) {
                 set.union(xyToInt(row, col), xyToInt(row + 1, col));
+                setWithoutBackWash.union(xyToInt(row, col), xyToInt(row + 1, col));
             }
         }
     }
@@ -72,42 +83,22 @@ public class Percolation {
         if (row < 0 || col < 0 || row > grid.length || col > grid[0].length) {
             throw new IndexOutOfBoundsException();
         }
-        return grid[row][col] == 1 || grid[row][col] == 2;
+        return grid[row][col] == 1;
     }
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         if (row < 0 || col < 0 || row > grid.length || col > grid[0].length) {
             throw new IndexOutOfBoundsException();
         }
-        return grid[row][col] == 2 || isConnectedToFull(row, col);
+        return setWithoutBackWash.connected(xyToInt(row, col), N * N + 1);
     }
 
-    private boolean isConnectedToFull(int row, int col) {
-        if (!isOpen(row, col)) {
-            return false;
-        }
-        for (int i = 0; i < grid[0].length; i++) {
-            // 必须加上isOpen(0, i)，否则在初始化时会使第一行的每一个元素对自己查询是否连接，进而使第一行直接被初始化为full状态
-            if (isOpen(0, i) && set.connected(xyToInt(row, col), xyToInt(0, i))) {
-                return true;
-            }
-        }
-        return false;
-    }
     // number of open sites
     public int numberOfOpenSites() {
         return size;
     }
     // does the system percolate?
     public boolean percolates() {
-        for (int i = 0; i < grid[0].length; i++) {
-            if (isPercolated) {
-                break;
-            }
-            if (isConnectedToFull(grid.length - 1, i)) {
-                isPercolated = true;
-            }
-        }
-        return isPercolated;
+        return set.connected(N * N + 1, N * N + 2);
     }
 }
